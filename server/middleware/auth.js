@@ -1,5 +1,9 @@
-// File: server/middleware/auth.js
-exports.authenticate = (req, res, next) => {
-  // Dummy middleware — can validate JWTs or API keys here
-  next();
-};
+// server/middleware/auth.js
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(401).send("Not authenticated");
+}
+
+module.exports = ensureAuthenticated;

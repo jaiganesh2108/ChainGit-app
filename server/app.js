@@ -1,16 +1,28 @@
-// File: server/app.js
+// server/app.js
+require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
+const session = require("express-session");
+const passport = require("./config/passport");
 const githubRoutes = require("./routes/github");
+const commitController = require("./controllers/commitController");
+const ensureAuthenticated = require("./middleware/auth");
 
-dotenv.config();
 const app = express();
-
-app.use(cors());
 app.use(express.json());
 
-app.use("/api/github", githubRoutes);
+app.use(
+    session({
+        secret: "supersecret",
+        resave: false,
+        saveUninitialized: false
+    })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-const PORT = process.env.PORT || 5000;
+app.use("/auth/github", githubRoutes);
+
+app.post("/push-to-ipfs", ensureAuthenticated, commitController.pushCommitToIPFS);
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
