@@ -1,10 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
+/* Root Variables for Day Theme */
+:root {
+  --bg-color: whitesmoke;
+  --text-color: #222;
+  --secondary-text: #555;
+  --card-bg: white;
+  --border-color: #ddd;
+  --brand-color: #4f46e5;
+  --button-bg: #4f46e5;
+  --button-hover: #3b34c4;
+}
+
+/* Dark Theme Variables */
+.dark {
+  --bg-color: #0f172a;
+  --text-color: #e2e8f0;
+  --secondary-text: #94a3b8;
+  --card-bg: #1e293b;
+  --border-color: #334155;
+  --brand-color: #818cf8;
+  --button-bg: #6366f1;
+  --button-hover: #4f46e5;
+}
+
+/* Body & Global Styles */
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Inter', sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Container */
 .home-container {
   min-height: 100vh;
-  background: whitesmoke;
-  color: #222;
-  font-family: 'Inter', sans-serif;
 }
 
 .home-content {
@@ -21,7 +52,7 @@
 
 .hero-icon {
   font-size: 3.5rem;
-  color: #4f46e5;
+  color: var(--brand-color);
   margin-bottom: 1rem;
 }
 
@@ -29,21 +60,34 @@
   font-size: 2.8rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
+  /* Optional gradient text effect like your dashboard title */
+  background: linear-gradient(90deg, var(--brand-color), #a855f7);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
+.dark .home-title {
+  background: linear-gradient(90deg, #818cf8, #c084fc);
+}
+
+/* Brand text */
 .brand-text {
-  color: #4f46e5;
+  color: var(--brand-color);
+}
+
+/* Subtitle and Description */
+.home-subtitle,
+.home-description {
+  color: var(--secondary-text);
 }
 
 .home-subtitle {
   font-size: 1.2rem;
-  color: #666;
   margin-bottom: 1rem;
 }
 
 .home-description {
   font-size: 1rem;
-  color: #555;
   max-width: 650px;
   margin: 0 auto 2rem;
   line-height: 1.6;
@@ -59,7 +103,7 @@
 
 .primary-button {
   padding: 0.8rem 1.6rem;
-  background: #4f46e5;
+  background: var(--button-bg);
   color: white;
   font-weight: 600;
   border-radius: 25px;
@@ -68,24 +112,28 @@
 }
 
 .primary-button:hover {
-  background: #3b34c4;
+  background: var(--button-hover);
 }
 
 .secondary-button {
   padding: 0.8rem 1.6rem;
-  background: white;
-  border: 1px solid #ccc;
-  color: #333;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
   border-radius: 25px;
   text-decoration: none;
   transition: background 0.2s ease;
 }
 
 .secondary-button:hover {
-  background: #f0f0f0;
+  background: rgba(0, 0, 0, 0.05);
 }
 
-/* Features */
+.dark .secondary-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Features Section */
 .features-section {
   padding: 3rem 0;
   text-align: center;
@@ -95,6 +143,7 @@
   font-size: 2rem;
   margin-bottom: 2rem;
   font-weight: 700;
+  color: var(--text-color);
 }
 
 .features-grid {
@@ -104,29 +153,32 @@
 }
 
 .feature-card {
-  background: white;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .feature-icon {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  color: var(--brand-color);
 }
 
 .feature-title {
   font-size: 1.2rem;
   font-weight: 600;
+  color: var(--text-color);
 }
 
 .feature-description {
   font-size: 0.95rem;
-  color: #555;
+  color: var(--secondary-text);
   margin-top: 0.5rem;
 }
 
-/* Stats */
+/* Stats Section */
 .stats-section {
   padding: 3rem 0;
 }
@@ -139,24 +191,25 @@
 }
 
 .stat-item {
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   padding: 1.5rem;
   border-radius: 10px;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .stat-number {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #4f46e5;
+  color: var(--brand-color);
 }
 
 .stat-label {
   font-size: 0.95rem;
-  color: #666;
+  color: var(--secondary-text);
 }
 
-/* Tech Stack */
+/* Tech Stack Section */
 .tech-section {
   padding: 2rem 0;
   text-align: center;
@@ -166,6 +219,7 @@
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 1rem;
+  color: var(--text-color);
 }
 
 .tech-stack {
@@ -176,9 +230,18 @@
 }
 
 .tech-item {
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
+  color: var(--text-color);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-title {
+    font-size: 2rem;
+  }
 }

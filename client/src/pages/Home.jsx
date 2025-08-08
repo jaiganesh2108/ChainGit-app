@@ -4,21 +4,9 @@ import "./Home.css";
 
 const Home = () => {
   const features = [
-    {
-      icon: "🔐",
-      title: "Blockchain Security",
-      description: "Immutable commit tracking with cryptographic verification"
-    },
-    {
-      icon: "⚡",
-      title: "Lightning Fast",
-      description: "Optimized Web3 integration with minimal latency"
-    },
-    {
-      icon: "🌐",
-      title: "Decentralized",
-      description: "Distributed version control across the blockchain network"
-    }
+    { icon: "🔐", title: "Blockchain Security", description: "Immutable commit tracking with cryptographic verification" },
+    { icon: "⚡", title: "Lightning Fast", description: "Optimized Web3 integration with minimal latency" },
+    { icon: "🌐", title: "Decentralized", description: "Distributed version control across the blockchain network" }
   ];
 
   return (
@@ -28,24 +16,16 @@ const Home = () => {
         <div className="hero-section">
           <div className="hero-icon">⧉</div>
           <h1 className="home-title">
-            Welcome to{" "}
-            <span className="chaingit-brand">
-              <span className="brand-text">ChainGit</span>
-            </span>
+            Welcome to <span className="chaingit-brand"><span className="brand-text">ChainGit</span></span>
           </h1>
           <p className="home-subtitle">The Future of Version Control</p>
           <p className="home-description">
             Track, verify, and secure your codebase using cutting-edge blockchain technology.
             Experience decentralized development with cryptographic commit verification.
           </p>
-
           <div className="cta-section">
-            <Link to="/dashboard" className="primary-button">
-              Get Started →
-            </Link>
-            <Link to="/docs" className="secondary-button">
-              Documentation
-            </Link>
+            <Link to="/dashboard" className="primary-button">Get Started →</Link>
+            <Link to="/docs" className="secondary-button">Documentation</Link>
           </div>
         </div>
 
@@ -66,22 +46,10 @@ const Home = () => {
         {/* Stats */}
         <div className="stats-section">
           <div className="stats-grid">
-            <div className="stat-item">
-              <div className="stat-number">10K+</div>
-              <div className="stat-label">Commits Verified</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-number">500+</div>
-              <div className="stat-label">Active Developers</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-number">99.9%</div>
-              <div className="stat-label">Uptime</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-number">24/7</div>
-              <div className="stat-label">Network Security</div>
-            </div>
+            <div className="stat-item"><div className="stat-number">10K+</div><div className="stat-label">Commits Verified</div></div>
+            <div className="stat-item"><div className="stat-number">500+</div><div className="stat-label">Active Developers</div></div>
+            <div className="stat-item"><div className="stat-number">99.9%</div><div className="stat-label">Uptime</div></div>
+            <div className="stat-item"><div className="stat-number">24/7</div><div className="stat-label">Network Security</div></div>
           </div>
         </div>
 

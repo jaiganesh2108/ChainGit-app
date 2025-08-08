@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
@@ -14,7 +14,13 @@ const Navbar = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const [isGitHubConnected, setIsGitHubConnected] = useState(false);
   const [gitHubUser, setGitHubUser] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  // Apply theme on load and when changed
+  useEffect(() => {
+    document.body.className = theme === "dark" ? "dark-theme" : "light-theme";
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const handleWalletConnect = useCallback(() => {
     if (!isConnected) {
@@ -36,9 +42,8 @@ const Navbar = () => {
     }
   }, [isGitHubConnected]);
 
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
-    document.documentElement.classList.toggle("dark");
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   return (
@@ -78,10 +83,10 @@ const Navbar = () => {
             {/* Dark Mode Toggle */}
             <button
               className="dark-mode-toggle"
-              onClick={toggleDarkMode}
-              title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              onClick={toggleTheme}
+              title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
-              {darkMode ? "🔆" : "🌙"}
+              {theme === "dark" ? "🔆" : "🌙"}
             </button>
 
             {/* Network Indicator */}
