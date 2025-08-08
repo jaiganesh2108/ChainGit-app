@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import "./CommitCard.css"
+import "./CommitCard.css";
 
 function CommitCard({ commit }) {
   return (
@@ -9,10 +9,10 @@ function CommitCard({ commit }) {
       <p className="commit-card-info"><strong>Author:</strong> {commit.author}</p>
       <p className="commit-card-info"><strong>Status:</strong> {commit.blockchainStatus}</p>
       <Link to={`/commit/${commit.hash}`} className="commit-card-link">
-        View Details
+        View Details →
       </Link>
     </div>
-  )
+  );
 }
 
 export default CommitCard;
