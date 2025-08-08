@@ -1,41 +1,103 @@
-/* -----------------------------------
-   Glassmorphism + Neon Dev Style
------------------------------------ */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar-container {
+  position: relative;
+  z-index: 1000;
+}
+
+/* -----------------------------------
+   Main Navbar
+----------------------------------- */
 .neon-navbar {
-  background: rgba(15, 15, 15, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 0.6rem 1.5rem;
+  position: relative;
+  background: rgba(8, 8, 12, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 0.4rem 1.5rem;
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid #1a1a1a;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
-  font-family: 'Fira Code', monospace;
+  font-family: 'JetBrains Mono', monospace;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+  box-shadow: 
+    0 0 30px rgba(0, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .neon-container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1400px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 56px;
 }
 
 /* -----------------------------------
-   Brand
+   Animated Border
 ----------------------------------- */
+.navbar-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    rgba(0, 255, 255, 0.3) 20%,
+    rgba(0, 255, 255, 0.8) 50%,
+    rgba(0, 255, 255, 0.3) 80%,
+    transparent 100%
+  );
+  animation: borderFlow 3s linear infinite;
+}
 
+@keyframes borderFlow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* -----------------------------------
+   Brand Section
+----------------------------------- */
 .neon-brand {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: #fff;
-  transition: transform 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 0.7rem;
 }
 
 .neon-brand:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
+}
+
+.brand-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.git-symbol {
+  font-size: 1.8rem;
+  color: #00ffe7;
+  text-shadow: 
+    0 0 10px rgba(0, 255, 231, 0.5),
+    0 0 20px rgba(0, 255, 231, 0.3);
+  animation: iconGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes iconGlow {
+  from { text-shadow: 0 0 10px rgba(0, 255, 231, 0.5), 0 0 20px rgba(0, 255, 231, 0.3); }
+  to { text-shadow: 0 0 15px rgba(0, 255, 231, 0.8), 0 0 30px rgba(0, 255, 231, 0.4); }
 }
 
 .brand-text {
@@ -45,45 +107,81 @@
 }
 
 .brand-title {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  color: #00ffe7;
-  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0, 255, 231, 0.3);
+  letter-spacing: -0.5px;
 }
 
 .brand-sub {
-  font-size: 0.7rem;
-  color: #bbb;
-  margin-top: 1px;
-  font-style: italic;
+  font-size: 0.65rem;
+  color: #888;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
 }
 
 /* -----------------------------------
    Navigation Links
 ----------------------------------- */
-
 .neon-links {
   display: flex;
-  gap: 1.2rem;
+  gap: 2rem;
+  align-items: center;
 }
 
 .neon-link {
   position: relative;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   text-decoration: none;
-  color: #aaa;
-  transition: color 0.3s ease;
+  color: #bbb;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0;
+  overflow: hidden;
+}
+
+.link-text {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.link-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: all 0.4s ease;
+  border-radius: 50%;
+}
+
+.neon-link:hover .link-text,
+.neon-link.active .link-text {
+  color: #00ffff;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+.neon-link:hover .link-glow,
+.neon-link.active .link-glow {
+  width: 100px;
+  height: 100px;
 }
 
 .neon-link::after {
   content: '';
   position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 0%;
+  left: 50%;
+  bottom: 0;
+  width: 0;
   height: 2px;
-  background-color: cyan;
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, transparent, #00ffff, transparent);
+  transform: translateX(-50%);
+  transition: width 0.4s ease;
 }
 
 .neon-link:hover::after,
@@ -91,88 +189,336 @@
   width: 100%;
 }
 
-.neon-link:hover,
-.neon-link.active {
-  color: #00ffff;
-}
-
 /* -----------------------------------
-   Actions (Wallet & Network)
+   Actions Section
 ----------------------------------- */
-
 .neon-actions {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
-/* Wallet Button */
+/* -----------------------------------
+   Network Indicator
+----------------------------------- */
+.network-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(50, 205, 50, 0.05);
+  border: 1px solid rgba(50, 205, 50, 0.2);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
 
+.network-pulse {
+  width: 8px;
+  height: 8px;
+  background: #32cd32;
+  border-radius: 50%;
+  position: relative;
+  animation: networkPulse 1.5s infinite ease-in-out;
+}
+
+.network-pulse::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 12px;
+  height: 12px;
+  background: rgba(50, 205, 50, 0.3);
+  border-radius: 50%;
+  animation: networkPulse 1.5s infinite ease-in-out 0.2s;
+}
+
+@keyframes networkPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+.network-text {
+  color: #32cd32;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-shadow: 0 0 5px rgba(50, 205, 50, 0.3);
+}
+
+/* -----------------------------------
+   GitHub Button
+----------------------------------- */
+.github-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 0.4rem 0.7rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.github-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.github-btn:hover::before {
+  left: 100%;
+}
+
+.github-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.03);
+  transform: translateY(-1px);
+}
+
+.github-btn.connected {
+  background: rgba(40, 40, 40, 0.8);
+  border-color: #666;
+  color: #ffffff;
+  box-shadow: 
+    0 0 15px rgba(255, 255, 255, 0.1),
+    inset 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.github-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.github-icon svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.github-btn:hover .github-icon svg {
+  transform: scale(1.1);
+}
+
+.github-user {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #ddd;
+}
+
+/* -----------------------------------
+   Wallet Button
+----------------------------------- */
 .neon-wallet-btn {
   display: flex;
   align-items: center;
-  background: rgba(0, 255, 255, 0.05);
-  border: 1px solid cyan;
-  color: cyan;
-  padding: 0.35rem 1rem;
-  border-radius: 8px;
+  gap: 0.5rem;
+  background: rgba(0, 255, 255, 0.03);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  color: #00ffff;
+  padding: 0.4rem 1rem;
+  border-radius: 25px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  font-family: inherit;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-wallet-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(0, 255, 255, 0.1), 
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.neon-wallet-btn:hover::before {
+  left: 100%;
 }
 
 .neon-wallet-btn:hover {
-  background: rgba(0, 255, 255, 0.2);
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  background: rgba(0, 255, 255, 0.08);
+  border-color: rgba(0, 255, 255, 0.5);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.2),
+    inset 0 0 20px rgba(0, 255, 255, 0.05);
+  transform: translateY(-1px);
 }
 
 .neon-wallet-btn.connected {
-  background: cyan;
-  color: black;
-  font-weight: 600;
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 255, 0.15),
+    rgba(0, 255, 255, 0.08)
+  );
+  border-color: #00ffff;
+  color: #ffffff;
+  box-shadow: 
+    0 0 25px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
 }
 
 .wallet-info {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  position: relative;
 }
 
 .wallet-avatar {
-  width: 16px;
-  height: 16px;
-  background: linear-gradient(135deg, cyan, lime);
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #00ffff, #00ff88);
   border-radius: 50%;
-  box-shadow: 0 0 4px rgba(0, 255, 255, 0.7);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+  animation: avatarGlow 2s ease-in-out infinite alternate;
 }
 
-/* Network Indicator */
+@keyframes avatarGlow {
+  from { box-shadow: 0 0 8px rgba(0, 255, 255, 0.5); }
+  to { box-shadow: 0 0 12px rgba(0, 255, 255, 0.8); }
+}
 
-.network-dot {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: lime;
+.wallet-address {
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.8rem;
+  letter-spacing: 0.5px;
 }
 
-.ping {
+.connection-dot {
   width: 6px;
   height: 6px;
-  background: lime;
+  background: #00ff88;
   border-radius: 50%;
-  animation: ping 1s infinite ease-in-out;
+  animation: connectionPulse 1s infinite ease-in-out;
 }
 
-@keyframes ping {
-  0% {
-    transform: scale(0.8);
-    opacity: 1;
+@keyframes connectionPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+.connect-text {
+  position: relative;
+  z-index: 2;
+}
+
+.connect-icon {
+  font-size: 1rem;
+  animation: connectIconFloat 2s ease-in-out infinite alternate;
+}
+
+@keyframes connectIconFloat {
+  from { transform: translateY(0px); }
+  to { transform: translateY(-2px); }
+}
+
+/* -----------------------------------
+   Responsive Design
+----------------------------------- */
+@media (max-width: 1024px) {
+  .neon-links {
+    gap: 1.5rem;
   }
-  100% {
-    transform: scale(2);
-    opacity: 0;
+  
+  .neon-actions {
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .neon-navbar {
+    padding: 0.3rem 1rem;
+  }
+  
+  .neon-container {
+    height: 50px;
+  }
+  
+  .neon-links {
+    display: none;
+  }
+  
+  .brand-title {
+    font-size: 1.1rem;
+  }
+  
+  .brand-sub {
+    font-size: 0.6rem;
+  }
+  
+  .neon-actions {
+    gap: 0.6rem;
+  }
+  
+  .github-btn {
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .github-user {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .neon-actions {
+    gap: 0.4rem;
+  }
+  
+  .network-indicator {
+    padding: 0.2rem 0.5rem;
+  }
+  
+  .network-text {
+    display: none;
+  }
+  
+  .neon-wallet-btn {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+  }
+  
+  .connect-text {
+    display: none;
+  }
+  
+  .wallet-address {
+    font-size: 0.7rem;
   }
 }
