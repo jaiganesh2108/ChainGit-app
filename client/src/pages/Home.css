@@ -1,0 +1,51 @@
+.home {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #1f1f1f, #2a2a2a);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  color: #e5e7eb;
+}
+
+.home-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #00ffe7, #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chaingit {
+  color: #00ffe7;
+  text-shadow: 0 0 10px rgba(0, 255, 231, 0.6);
+}
+
+.home-description {
+  font-size: 1.125rem;
+  color: #cbd5e1;
+  margin-bottom: 2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.home-button {
+  display: inline-block;
+  background: linear-gradient(to right, #4f46e5, #00ffe7);
+  color: #0f0f0f;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.5);
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.home-button:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 25px rgba(0, 255, 231, 0.5);
+}

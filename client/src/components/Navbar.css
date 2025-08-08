@@ -1,0 +1,178 @@
+/* -----------------------------------
+   Glassmorphism + Neon Dev Style
+----------------------------------- */
+
+.neon-navbar {
+  background: rgba(15, 15, 15, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #1a1a1a;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+  font-family: 'Fira Code', monospace;
+}
+
+.neon-container {
+  width: 100%;
+  max-width: 1280px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* -----------------------------------
+   Brand
+----------------------------------- */
+
+.neon-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.neon-brand:hover {
+  transform: scale(1.05);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.brand-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #00ffe7;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.brand-sub {
+  font-size: 0.7rem;
+  color: #bbb;
+  margin-top: 1px;
+  font-style: italic;
+}
+
+/* -----------------------------------
+   Navigation Links
+----------------------------------- */
+
+.neon-links {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.neon-link {
+  position: relative;
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: #aaa;
+  transition: color 0.3s ease;
+}
+
+.neon-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 2px;
+  background-color: cyan;
+  transition: width 0.3s ease;
+}
+
+.neon-link:hover::after,
+.neon-link.active::after {
+  width: 100%;
+}
+
+.neon-link:hover,
+.neon-link.active {
+  color: #00ffff;
+}
+
+/* -----------------------------------
+   Actions (Wallet & Network)
+----------------------------------- */
+
+.neon-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* Wallet Button */
+
+.neon-wallet-btn {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid cyan;
+  color: cyan;
+  padding: 0.35rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.neon-wallet-btn:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.neon-wallet-btn.connected {
+  background: cyan;
+  color: black;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+}
+
+.wallet-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wallet-avatar {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, cyan, lime);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0, 255, 255, 0.7);
+}
+
+/* Network Indicator */
+
+.network-dot {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: lime;
+  font-size: 0.8rem;
+}
+
+.ping {
+  width: 6px;
+  height: 6px;
+  background: lime;
+  border-radius: 50%;
+  animation: ping 1s infinite ease-in-out;
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

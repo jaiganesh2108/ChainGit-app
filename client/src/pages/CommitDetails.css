@@ -1,0 +1,53 @@
+.commit-details {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.commit-details-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.commit-details-info {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.commit-details-info p {
+  margin: 0.5rem 0;
+  color: #374151;
+}
+
+.commit-details-subtitle {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.commit-details-documents {
+  display: grid;
+  gap: 1rem;
+}
+
+.commit-details-document {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.commit-details-link {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.commit-details-link:hover {
+  text-decoration: underline;
+}
