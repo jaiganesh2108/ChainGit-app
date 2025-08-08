@@ -55,12 +55,13 @@
     rgba(0, 255, 255, 0.3) 80%,
     transparent 100%
   );
+  background-size: 200% 100%;
   animation: borderFlow 3s linear infinite;
 }
 
 @keyframes borderFlow {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* -----------------------------------
