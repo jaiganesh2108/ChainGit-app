@@ -4,9 +4,7 @@ const session = require("express-session");
 const passport = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;
 const axios = require("axios");
-
 const app = express();
-
 // Session middleware
 app.use(session({
   secret: process.env.SESSION_SECRET,
