@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
+import {ethers} from "ethers"
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -22,15 +23,23 @@ const Navbar = () => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const handleWalletConnect = useCallback(() => {
-    if (!isConnected) {
-      setWalletAddress("0xABCD...1234");
-      setIsConnected(true);
-    } else {
-      setWalletAddress("");
-      setIsConnected(false);
-    }
-  }, [isConnected]);
+  const handleWalletConnect = async () => {
+  try {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer = await provider.getSigner();
+    const address = await signer.getAddress();
+
+    console.log("address is:", address);
+
+    // ✅ Update state so UI knows wallet is connected
+    setWalletAddress(address);
+    setIsConnected(true);
+  } catch (err) {
+    console.log("Please install metamask", err);
+    alert("Please install metamask");
+  }
+};
+
 
   const handleGitHubConnect = useCallback(() => {
     if (!isGitHubConnected) {
