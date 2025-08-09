@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
-import {ethers} from "ethers"
+import { ethers } from "ethers";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -24,32 +24,50 @@ const Navbar = () => {
   }, [theme]);
 
   const handleWalletConnect = async () => {
-  try {
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
-    const address = await signer.getAddress();
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
 
-    console.log("address is:", address);
+      console.log("address is:", address);
+      setWalletAddress(address);
+      setIsConnected(true);
+    } catch (err) {
+      console.log("Please install metamask", err);
+      alert("Please install metamask");
+    }
+  };
 
-    // ✅ Update state so UI knows wallet is connected
-    setWalletAddress(address);
-    setIsConnected(true);
-  } catch (err) {
-    console.log("Please install metamask", err);
-    alert("Please install metamask");
-  }
-};
-
-
-  const handleGitHubConnect = useCallback(() => {
+  // ✅ Real GitHub OAuth connect
+  const handleGitHubConnect = useCallback(async () => {
     if (!isGitHubConnected) {
-      setGitHubUser("developer");
-      setIsGitHubConnected(true);
+      window.location.href = "http://localhost:5000/auth/github"; // backend handles redirect
     } else {
       setGitHubUser("");
       setIsGitHubConnected(false);
+      localStorage.removeItem("github_user");
     }
   }, [isGitHubConnected]);
+
+  // ✅ On load, check if backend already has GitHub session
+  useEffect(() => {
+    const storedUser = localStorage.getItem("github_user");
+    if (storedUser) {
+      setGitHubUser(storedUser);
+      setIsGitHubConnected(true);
+    } else {
+      fetch("http://localhost:5000/auth/status", { credentials: "include" })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.username) {
+            setGitHubUser(data.username);
+            setIsGitHubConnected(true);
+            localStorage.setItem("github_user", data.username);
+          }
+        })
+        .catch((err) => console.log("GitHub auth check failed", err));
+    }
+  }, []);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
@@ -111,7 +129,7 @@ const Navbar = () => {
             >
               <div className="github-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0c-6.626 0-12 5.373-12...z" />
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.05c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.35-1.76-1.35-1.76-1.1-.76.08-.75.08-.75 1.21.08 1.85 1.24 1.85 1.24 1.08 1.85 2.84 1.31 3.54 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.97 0-1.32.47-2.39 1.24-3.23-.12-.3-.54-1.51.12-3.14 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.63.24 2.84.12 3.14.77.84 1.24 1.91 1.24 3.23 0 4.64-2.81 5.66-5.49 5.96.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.82.58A12.01 12.01 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
                 </svg>
               </div>
               {isGitHubConnected && <span>@{gitHubUser}</span>}
