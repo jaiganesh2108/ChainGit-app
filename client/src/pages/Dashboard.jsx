@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Line, Doughnut } from "react-chartjs-2";
 import {
@@ -23,15 +23,15 @@ ChartJS.register(
   Legend
 );
 
-const Dashboard = () => {
+const Dashboard = ({ repos }) => {
   const [commits, setCommits] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/github/commits")
+  const fetchCommits = (repo) => {
+    fetch(`http://localhost:5000/api/github/commits?owner=${repo.owner.login}&name=${repo.name}`, { credentials: "include" })
       .then(res => res.json())
       .then(data => setCommits(data))
       .catch(err => console.error("Error fetching commits:", err));
-  }, []);
+  };
 
   const totalCommits = commits.length;
   const authors = [...new Set(commits.map(c => c.author))];
@@ -59,8 +59,7 @@ const Dashboard = () => {
     datasets: [{
       data: authors.map(author => commits.filter(c => c.author === author).length),
       backgroundColor: ["#6366f1", "#22c55e", "#facc15", "#ef4444", "#3b82f6"],
-      borderWidth: 2,
-      borderColor: document.documentElement.classList.contains("dark") ? "#1f2937" : "#f9fafb"
+      borderWidth: 2
     }]
   };
 
@@ -72,6 +71,22 @@ const Dashboard = () => {
           <h1 className="dashboard-title">Developer Dashboard</h1>
         </div>
 
+        {/* Repos List */}
+        <h2 className="section-title">Your Repositories</h2>
+        <div className="repo-list">
+          {repos.map((repo, index) => (
+            <div
+              key={index}
+              className="repo-card"
+              onClick={() => fetchCommits(repo)}
+            >
+              <strong>{repo.name}</strong>
+              <p>{repo.description || "No description"}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Stats */}
         <div className="stats-row">
           <div className="stat-card">
             <h2>{totalCommits}</h2>
@@ -83,6 +98,7 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Charts */}
         <div className="charts-grid">
           <div className="chart-card">
             <h3>📈 Commits Over Time</h3>
@@ -98,6 +114,7 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Recent Commits */}
         <h2 className="section-title">Recent Commits</h2>
         <div className="commit-list">
           {commits.map((commit, index) => (

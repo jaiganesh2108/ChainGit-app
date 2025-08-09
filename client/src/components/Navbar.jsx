@@ -10,14 +10,14 @@ const navItems = [
   { label: "Docs", path: "/docs" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ setRepos }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
   const [isGitHubConnected, setIsGitHubConnected] = useState(false);
   const [gitHubUser, setGitHubUser] = useState("");
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
-  // Apply theme on load and when changed
+  // Apply theme on load
   useEffect(() => {
     document.body.className = theme === "dark" ? "dark-theme" : "light-theme";
     localStorage.setItem("theme", theme);
@@ -29,45 +29,31 @@ const Navbar = () => {
       const signer = await provider.getSigner();
       const address = await signer.getAddress();
 
-      console.log("address is:", address);
       setWalletAddress(address);
       setIsConnected(true);
     } catch (err) {
-      console.log("Please install metamask", err);
-      alert("Please install metamask");
+      alert("Please install MetaMask");
     }
   };
 
-  // ✅ Real GitHub OAuth connect
-  const handleGitHubConnect = useCallback(async () => {
-    if (!isGitHubConnected) {
-      window.location.href = "http://localhost:5000/auth/github"; // backend handles redirect
-    } else {
-      setGitHubUser("");
-      setIsGitHubConnected(false);
-      localStorage.removeItem("github_user");
-    }
-  }, [isGitHubConnected]);
-
-  // ✅ On load, check if backend already has GitHub session
-  useEffect(() => {
-    const storedUser = localStorage.getItem("github_user");
-    if (storedUser) {
-      setGitHubUser(storedUser);
-      setIsGitHubConnected(true);
-    } else {
-      fetch("http://localhost:5000/auth/status", { credentials: "include" })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.username) {
-            setGitHubUser(data.username);
-            setIsGitHubConnected(true);
-            localStorage.setItem("github_user", data.username);
-          }
-        })
-        .catch((err) => console.log("GitHub auth check failed", err));
-    }
+  // ✅ GitHub connect via backend OAuth
+  const handleGitHubConnect = useCallback(() => {
+    window.location.href = "http://localhost:5000/auth/github";
   }, []);
+
+  // ✅ Check GitHub auth status on load
+  useEffect(() => {
+    fetch("http://localhost:5000/auth/status", { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.username) {
+          setGitHubUser(data.username);
+          setIsGitHubConnected(true);
+          setRepos(data.repos || []); // Send repos to Dashboard via parent state
+        }
+      })
+      .catch((err) => console.log("GitHub auth check failed", err));
+  }, [setRepos]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
@@ -116,22 +102,12 @@ const Navbar = () => {
               {theme === "dark" ? "🔆" : "🌙"}
             </button>
 
-            {/* Network Indicator */}
-            <div className="network-indicator">
-              <div className="network-pulse"></div>
-              <span className="network-text">Testnet</span>
-            </div>
-
-            {/* GitHub Login Button */}
+            {/* GitHub Login */}
             <button
               className={`github-btn ${isGitHubConnected ? "connected" : ""}`}
               onClick={handleGitHubConnect}
             >
-              <div className="github-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.05c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.35-1.76-1.35-1.76-1.1-.76.08-.75.08-.75 1.21.08 1.85 1.24 1.85 1.24 1.08 1.85 2.84 1.31 3.54 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.97 0-1.32.47-2.39 1.24-3.23-.12-.3-.54-1.51.12-3.14 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.63.24 2.84.12 3.14.77.84 1.24 1.91 1.24 3.23 0 4.64-2.81 5.66-5.49 5.96.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.82.58A12.01 12.01 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-                </svg>
-              </div>
+              <div className="github-icon">🐙</div>
               {isGitHubConnected && <span>@{gitHubUser}</span>}
             </button>
 
@@ -155,8 +131,6 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-
-        {/* Animated Border */}
         <div className="navbar-border"></div>
       </nav>
     </div>
