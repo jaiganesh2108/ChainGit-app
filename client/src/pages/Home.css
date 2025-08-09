@@ -1,18 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
-/* Root Variables for Day Theme */
+/* ==== THEME VARIABLES ==== */
 :root {
-  --bg-color: whitesmoke;
-  --text-color: #222;
-  --secondary-text: #555;
-  --card-bg: white;
-  --border-color: #ddd;
+  --bg-color: #f8fafc;
+  --text-color: #1e293b;
+  --secondary-text: #64748b;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
   --brand-color: #4f46e5;
   --button-bg: #4f46e5;
-  --button-hover: #3b34c4;
+  --button-hover: #4338ca;
 }
 
-/* Dark Theme Variables */
 .dark {
   --bg-color: #0f172a;
   --text-color: #e2e8f0;
@@ -24,16 +23,16 @@
   --button-hover: #4f46e5;
 }
 
-/* Body & Global Styles */
+/* ==== GLOBAL STYLES ==== */
 body {
   background: var(--bg-color);
   color: var(--text-color);
   font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
   transition: background 0.3s ease, color 0.3s ease;
-  min-height: 100vh;
 }
 
-/* Container */
 .home-container {
   min-height: 100vh;
 }
@@ -44,10 +43,10 @@ body {
   padding: 2rem;
 }
 
-/* Hero Section */
+/* ==== HERO SECTION ==== */
 .hero-section {
   text-align: center;
-  padding: 4rem 0;
+  padding: 4rem 1rem;
 }
 
 .hero-icon {
@@ -60,8 +59,7 @@ body {
   font-size: 2.8rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  /* Optional gradient text effect like your dashboard title */
-  background: linear-gradient(90deg, var(--brand-color), #a855f7);
+  background: linear-gradient(90deg, var(--brand-color), #7c3aed);
   -webkit-background-clip: text;
   color: transparent;
 }
@@ -70,19 +68,13 @@ body {
   background: linear-gradient(90deg, #818cf8, #c084fc);
 }
 
-/* Brand text */
 .brand-text {
   color: var(--brand-color);
 }
 
-/* Subtitle and Description */
-.home-subtitle,
-.home-description {
-  color: var(--secondary-text);
-}
-
 .home-subtitle {
   font-size: 1.2rem;
+  color: var(--secondary-text);
   margin-bottom: 1rem;
 }
 
@@ -90,10 +82,11 @@ body {
   font-size: 1rem;
   max-width: 650px;
   margin: 0 auto 2rem;
+  color: var(--secondary-text);
   line-height: 1.6;
 }
 
-/* Buttons */
+/* ==== BUTTONS ==== */
 .cta-section {
   display: flex;
   gap: 1rem;
@@ -133,7 +126,7 @@ body {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* Features Section */
+/* ==== FEATURES SECTION ==== */
 .features-section {
   padding: 3rem 0;
   text-align: center;
@@ -143,7 +136,6 @@ body {
   font-size: 2rem;
   margin-bottom: 2rem;
   font-weight: 700;
-  color: var(--text-color);
 }
 
 .features-grid {
@@ -157,7 +149,12 @@ body {
   padding: 2rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .feature-icon {
@@ -169,7 +166,6 @@ body {
 .feature-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: var(--text-color);
 }
 
 .feature-description {
@@ -178,7 +174,7 @@ body {
   margin-top: 0.5rem;
 }
 
-/* Stats Section */
+/* ==== STATS SECTION ==== */
 .stats-section {
   padding: 3rem 0;
 }
@@ -195,7 +191,6 @@ body {
   border: 1px solid var(--border-color);
   padding: 1.5rem;
   border-radius: 10px;
-  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .stat-number {
@@ -209,7 +204,42 @@ body {
   color: var(--secondary-text);
 }
 
-/* Tech Stack Section */
+/* ==== TESTIMONIALS ==== */
+.testimonials-section {
+  padding: 3rem 0;
+  background: var(--card-bg);
+  border-radius: 12px;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.testimonial-card {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.testimonial-quote {
+  font-style: italic;
+  color: var(--secondary-text);
+  margin-bottom: 1rem;
+}
+
+.testimonial-name {
+  font-weight: 600;
+}
+
+.testimonial-role {
+  font-size: 0.85rem;
+  color: var(--secondary-text);
+}
+
+/* ==== TECH STACK ==== */
 .tech-section {
   padding: 2rem 0;
   text-align: center;
@@ -219,7 +249,6 @@ body {
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: var(--text-color);
 }
 
 .tech-stack {
@@ -235,11 +264,58 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
-  color: var(--text-color);
-  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-/* Responsive adjustments */
+/* ==== ROADMAP ==== */
+.roadmap-section {
+  padding: 3rem 0;
+}
+
+.roadmap-list {
+  list-style: none;
+  padding: 0;
+}
+
+.roadmap-list li {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.roadmap-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--brand-color);
+  font-weight: bold;
+}
+
+/* ==== FINAL CTA ==== */
+.final-cta {
+  text-align: center;
+  padding: 3rem 0;
+  background: var(--card-bg);
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.final-cta h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.final-cta p {
+  color: var(--secondary-text);
+  margin-bottom: 1.5rem;
+}
+
+.primary-button.large {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* ==== RESPONSIVE ==== */
 @media (max-width: 768px) {
   .home-title {
     font-size: 2rem;

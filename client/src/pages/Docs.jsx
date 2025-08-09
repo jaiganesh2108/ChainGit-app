@@ -34,12 +34,12 @@ export default function Docs() {
       {/* Section 2 */}
       <h2 className="text-2xl font-semibold mb-3">Workflow</h2>
       <pre className="mb-8 leading-relaxed whitespace-pre-wrap">
-{`1. Login with GitHub and connect wallet
-2. Select repository and choose commit(s)
-3. Optionally attach audit files (e.g., fairness report, model summary)
-4. Push metadata to blockchain
-5. Hash + audit file CID are permanently recorded in smart contract
-6. Dashboard allows public or internal users to verify commit authenticity`}
+      1. Login with GitHub and connect wallet
+      2. Select repository and choose commit(s)
+      3. Optionally attach audit files (e.g., fairness report, model summary)
+      4. Push metadata to blockchain
+      5. Hash + audit file CID are permanently recorded in smart contract
+      6. Dashboard allows public or internal users to verify commit authenticity
       </pre>
 
       {/* Section 3 */}

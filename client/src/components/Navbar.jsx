@@ -1,83 +1,102 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import "./Navbar.css";
-import { ethers } from "ethers";
+import React, { useState, useCallback, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
+import './Navbar.css';
+import { ethers } from 'ethers';
 
 const navItems = [
-  { label: "Home", path: "/" },
-  { label: "Dashboard", path: "/dashboard" },
-  { label: "Commits", path: "/commit/abc123" },
-  { label: "Docs", path: "/docs" },
+  { label: 'Home', path: '/' },
+  { label: 'Dashboard', path: '/dashboard' },
+  { label: 'Commits', path: '/commit/abc123' },
+  { label: 'Docs', path: '/docs' },
 ];
 
 const Navbar = () => {
   const [isConnected, setIsConnected] = useState(false);
-  const [walletAddress, setWalletAddress] = useState("");
+  const [walletAddress, setWalletAddress] = useState('');
   const [isGitHubConnected, setIsGitHubConnected] = useState(false);
-  const [gitHubUser, setGitHubUser] = useState("");
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [gitHubUser, setGitHubUser] = useState('');
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+  const [isConnecting, setIsConnecting] = useState(false);
 
   // Apply theme on load and when changed
   useEffect(() => {
-    document.body.className = theme === "dark" ? "dark-theme" : "light-theme";
-    localStorage.setItem("theme", theme);
+    document.body.className = theme === 'dark' ? 'dark-theme' : 'light-theme';
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const handleWalletConnect = async () => {
+    if (isConnecting) return;
+    
     try {
+      setIsConnecting(true);
+      
+      if (!window.ethereum) {
+        alert('Please install MetaMask to connect your wallet');
+        return;
+      }
+
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const address = await signer.getAddress();
 
-      console.log("address is:", address);
-      setWalletAddress(address);
+      const formattedAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
+      
+      setWalletAddress(formattedAddress);
       setIsConnected(true);
     } catch (err) {
-      console.log("Please install metamask", err);
-      alert("Please install metamask");
+      console.log('Wallet connection failed:', err);
+      if (err.code === 4001) {
+        alert('Connection rejected by user');
+      } else {
+        alert('Failed to connect wallet. Please try again.');
+      }
+    } finally {
+      setIsConnecting(false);
     }
   };
 
-  // ✅ Real GitHub OAuth connect
   const handleGitHubConnect = useCallback(async () => {
     if (!isGitHubConnected) {
-      window.location.href = "http://localhost:5000/auth/github"; // backend handles redirect
+      window.location.href = 'http://localhost:5000/auth/github';
     } else {
-      setGitHubUser("");
+      setGitHubUser('');
       setIsGitHubConnected(false);
-      localStorage.removeItem("github_user");
+      localStorage.removeItem('github_user');
     }
   }, [isGitHubConnected]);
 
-  // ✅ On load, check if backend already has GitHub session
   useEffect(() => {
-    const storedUser = localStorage.getItem("github_user");
+    const storedUser = localStorage.getItem('github_user');
     if (storedUser) {
       setGitHubUser(storedUser);
       setIsGitHubConnected(true);
     } else {
-      fetch("http://localhost:5000/auth/status", { credentials: "include" })
+      fetch('http://localhost:5000/auth/status', { credentials: 'include' })
         .then((res) => res.json())
         .then((data) => {
           if (data.username) {
             setGitHubUser(data.username);
             setIsGitHubConnected(true);
-            localStorage.setItem("github_user", data.username);
+            localStorage.setItem('github_user', data.username);
           }
         })
-        .catch((err) => console.log("GitHub auth check failed", err));
+        .catch((err) => console.log('GitHub auth check failed', err));
     }
   }, []);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  const disconnectWallet = () => {
+    setIsConnected(false);
+    setWalletAddress('');
   };
 
   return (
     <div className="navbar-container">
       <nav className="neon-navbar" aria-label="Main navigation">
         <div className="neon-container">
-
           {/* Brand Logo */}
           <NavLink to="/" className="neon-brand" aria-label="ChainGit Home">
             <div className="brand-icon">
@@ -96,7 +115,7 @@ const Navbar = () => {
                 key={label}
                 to={path}
                 className={({ isActive }) =>
-                  `neon-link ${isActive ? "active" : ""}`
+                  `neon-link ${isActive ? 'active' : ''}`
                 }
               >
                 <span className="link-text">{label}</span>
@@ -111,9 +130,10 @@ const Navbar = () => {
             <button
               className="dark-mode-toggle"
               onClick={toggleTheme}
-              title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              {theme === "dark" ? "🔆" : "🌙"}
+              {theme === 'dark' ? '🔆' : '🌙'}
             </button>
 
             {/* Network Indicator */}
@@ -124,8 +144,10 @@ const Navbar = () => {
 
             {/* GitHub Login Button */}
             <button
-              className={`github-btn ${isGitHubConnected ? "connected" : ""}`}
+              className={`github-btn ${isGitHubConnected ? 'connected' : ''}`}
               onClick={handleGitHubConnect}
+              title={isGitHubConnected ? `Connected as @${gitHubUser}` : 'Connect GitHub'}
+              aria-label={isGitHubConnected ? `Connected as @${gitHubUser}` : 'Connect GitHub'}
             >
               <div className="github-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -137,19 +159,26 @@ const Navbar = () => {
 
             {/* Wallet Button */}
             <button
-              className={`neon-wallet-btn ${isConnected ? "connected" : ""}`}
-              onClick={handleWalletConnect}
+              className={`neon-wallet-btn ${isConnected ? 'connected' : ''} ${isConnecting ? 'connecting' : ''}`}
+              onClick={isConnected ? disconnectWallet : handleWalletConnect}
+              disabled={isConnecting}
+              title={isConnected ? `Connected: ${walletAddress}` : 'Connect Wallet'}
+              aria-label={isConnected ? `Connected: ${walletAddress}` : 'Connect Wallet'}
             >
               {isConnected ? (
                 <div className="wallet-info">
                   <div className="wallet-avatar"></div>
-                  <span>{walletAddress}</span>
+                  <span className="wallet-address">{walletAddress}</span>
                   <div className="connection-dot"></div>
                 </div>
               ) : (
                 <>
-                  <span className="connect-text">Connect Wallet</span>
-                  <div className="connect-icon">⚡</div>
+                  <span className="connect-text">
+                    {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+                  </span>
+                  <div className="connect-icon">
+                    {isConnecting ? '⌛' : '⚡'}
+                  </div>
                 </>
               )}
             </button>
