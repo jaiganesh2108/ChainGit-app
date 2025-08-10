@@ -243,9 +243,9 @@ const Profile = () => {
             The Express server is not running. Please start your server by running:
           </p>
           <div className="bg-[#1e293b] p-4 rounded-lg mb-6 text-left">
-            <code className="text-green-400">npm start</code>
+            <code className="text-green-400">Check your internet!</code>
             <p className="text-gray-400 text-sm mt-2">or</p>
-            <code className="text-green-400">node server.js</code>
+            <code className="text-green-400">Try later!</code>
           </div>
           <button 
             onClick={checkServerStatus}
@@ -253,6 +253,7 @@ const Profile = () => {
           >
             Check Server Status
           </button>
+          
         </div>
       </div>
     );
