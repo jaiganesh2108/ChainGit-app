@@ -11,7 +11,7 @@ import {
   RefreshCw,
   Calendar,
   MapPin,
-  Link,
+  Link, 
   Mail,
   Edit,
   Star,

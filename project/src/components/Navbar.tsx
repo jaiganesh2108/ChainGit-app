@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { 
+import {  
   GitBranch, 
   Home, 
   BarChart3, 
@@ -11,10 +11,14 @@ import {
   Wallet,
   Shield
 } from 'lucide-react';
+import {ethers} from "ethers"
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState('/');
+  const [isConnected, setIsConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState('');
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
@@ -23,7 +27,44 @@ const Navbar = () => {
     { name: 'Github', href: '/profile', icon: User },
     { name: 'Docs', href: '/docs', icon: BookOpen },
   ];
+const handleWalletConnect = async () => {
+  if (isConnecting) return;
 
+  try {
+    setIsConnecting(true);
+
+    if (!window.ethereum) {
+      alert('Please install MetaMask to connect your wallet');
+      return;
+    }
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
+
+    // Explicitly request account access before getting signer
+    const accounts = await provider.send("eth_requestAccounts", []);
+    const address = accounts[0]; // First account returned
+
+    const formattedAddress = `${address.slice(0, 6)}...${address.slice(-4)}`;
+
+    setWalletAddress(formattedAddress);
+    setIsConnected(true);
+  } catch (err) {
+    console.log('Wallet connection failed:', err);
+    if (err.code === 4001) {
+      alert('Connection rejected by user');
+    } else {
+      alert('Failed to connect wallet. Please try again.');
+    }
+  } finally {
+    setIsConnecting(false);
+  }
+};
+
+
+  const disconnectWallet = () => {
+    setIsConnected(false);
+    setWalletAddress('');
+  };  
   const handleNavClick = (href) => {
     setActiveItem(href);
     setIsOpen(false);
@@ -66,9 +107,15 @@ const Navbar = () => {
                 </a>
               );
             })}
-            <button className="ml-4 px-4 py-2 bg-gradient-to-r from-blue-600 to-green-500 text-white rounded-lg text-sm font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-200 flex items-center space-x-2 shadow-lg">
+            <button
+              onClick={isConnected ? disconnectWallet : handleWalletConnect}
+              disabled={isConnecting}
+              className="ml-4 px-4 py-2 bg-gradient-to-r from-blue-600 to-green-500 text-white rounded-lg text-sm font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+              title={isConnected ? `Connected: ${walletAddress} `: 'Connect Wallet'}
+              aria-label={isConnected ? `Connected: ${walletAddress} `: 'Connect Wallet'}
+            >
               <Wallet className="h-4 w-4" />
-              <span>Connect Wallet</span>
+              <span>{isConnected ? walletAddress : isConnecting ? 'Connecting...' : 'Connect Wallet'}</span>
             </button>
           </div>
 
@@ -103,13 +150,19 @@ const Navbar = () => {
                   }`}
                 >
                   <Icon className="h-4 w-4" />
-                  <span>{item.name}</span>
+                  <span>{item.name}</span>  
                 </a>
               );
             })}
-            <button className="w-full mt-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-green-500 text-white rounded-lg text-sm font-medium flex items-center justify-center space-x-2">
+            <button
+              onClick={isConnected ? disconnectWallet : handleWalletConnect}
+              disabled={isConnecting}
+              className="ml-4 px-4 py-2 bg-gradient-to-r from-blue-600 to-green-500 text-white rounded-lg text-sm font-medium hover:from-blue-700 hover:to-green-600 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+              title={isConnected ? `Connected: ${walletAddress}` : 'Connect Wallet'}
+              aria-label={isConnected ? `Connected: ${walletAddress}` : 'Connect Wallet'}
+            >
               <Wallet className="h-4 w-4" />
-              <span>Connect Wallet</span>
+              <span>{isConnected ? walletAddress : isConnecting ? 'Connecting...' : 'Connect Wallet'}</span>
             </button>
           </div>
         </div>

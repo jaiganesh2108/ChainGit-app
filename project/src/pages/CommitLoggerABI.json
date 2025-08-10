@@ -1,0 +1,212 @@
+[
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "commitHash",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "authorName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "authorEmail",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "githubId",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "walletAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			}
+		],
+		"name": "CommitLogged",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "commitHash",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "authorName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "authorEmail",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "githubId",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "walletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "commitMessage",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct CommitLogger.Commit",
+				"name": "commit",
+				"type": "tuple"
+			}
+		],
+		"name": "logCommit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "commits",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "commitHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "authorName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "authorEmail",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "githubId",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "walletAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "commitMessage",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "getCommit",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "commitHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "authorName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "authorEmail",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "githubId",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "walletAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "commitMessage",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalCommits",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
