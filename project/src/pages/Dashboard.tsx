@@ -1,28 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  LineChart, Line,
+  PieChart, Pie, Cell
 } from 'recharts';
 import { 
-  GitCommit, 
-  Shield, 
-  Database, 
-  TrendingUp, 
-  CheckCircle, 
-  AlertCircle
+  GitCommit, Shield, Database, TrendingUp, CheckCircle, AlertCircle
 } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const Dashboard = () => {
+  // Static data for charts & cards
   const commitData = [
     { month: 'Jan', commits: 45, verified: 40 },
     { month: 'Feb', commits: 52, verified: 48 },
@@ -48,12 +36,55 @@ const Dashboard = () => {
     { name: 'Unverified', value: 10, color: '#EF4444' },
   ];
 
-  const recentCommits = [
-    { id: '1a2b3c4d', message: 'Add machine learning model validation', timestamp: '2 hours ago', verified: true, author: 'Alice Johnson' },
-    { id: '5e6f7g8h', message: 'Update security protocols', timestamp: '4 hours ago', verified: true, author: 'Bob Smith' },
-    { id: '9i0j1k2l', message: 'Optimize database queries', timestamp: '6 hours ago', verified: false, author: 'Carol White' },
-    { id: '3m4n5o6p', message: 'Fix authentication bug', timestamp: '8 hours ago', verified: true, author: 'David Lee' },
-  ];
+  // New state to hold fetched commits
+  const [recentCommits, setRecentCommits] = useState([]);
+  const [loadingCommits, setLoadingCommits] = useState(true);
+  const [commitError, setCommitError] = useState(null);
+
+  // Hook to get URL query params
+  const useQuery = () => new URLSearchParams(useLocation().search);
+  const query = useQuery();
+  const sessionId = query.get('session');
+
+  useEffect(() => {
+    if (!sessionId) {
+      setCommitError('No session found in URL. Please authenticate first.');
+      setLoadingCommits(false);
+      return;
+    }
+
+    const fetchCommits = async () => {
+      setLoadingCommits(true);
+      try {
+        const response = await fetch(`http://localhost:5000/api/github/commits/${sessionId}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch commits: ${response.statusText}`);
+        }
+        const data = await response.json();
+
+        // Assuming data.commits is an array of commits with keys:
+        // sha, message, date, verified, author, url
+        // Map backend commit format to UI format:
+        const mappedCommits = data.commits.map(c => ({
+          id: c.sha,
+          message: c.message,
+          timestamp: new Date(c.date).toLocaleString(),
+          verified: c.verified || true, // fallback true if missing
+          author: c.author || 'Unknown',
+          url: c.url,
+        }));
+
+        setRecentCommits(mappedCommits);
+        setCommitError(null);
+      } catch (error) {
+        setCommitError(error.message);
+      } finally {
+        setLoadingCommits(false);
+      }
+    };
+
+    fetchCommits();
+  }, [sessionId]);
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 pt-8 pb-12">
@@ -154,23 +185,48 @@ const Dashboard = () => {
               <h3 className="text-lg font-semibold">Recent Commits</h3>
               <button className="text-sm text-blue-400 hover:text-blue-300 font-medium">View All</button>
             </div>
+
+            {loadingCommits && <p>Loading commits...</p>}
+            {commitError && <p className="text-red-500">{commitError}</p>}
+            {!loadingCommits && !commitError && recentCommits.length === 0 && (
+              <p>No commits found for this session.</p>
+            )}
+
             <div className="space-y-4">
-              {recentCommits.map((commit, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+              {recentCommits.map((commit) => (
+                <a
+                  key={commit.id}
+                  href={commit.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition"
+                >
                   <div className="flex items-center space-x-4">
-                    {commit.verified ? <CheckCircle className="h-5 w-5 text-green-400" /> : <AlertCircle className="h-5 w-5 text-yellow-400" />}
+                    {commit.verified ? (
+                      <CheckCircle className="h-5 w-5 text-green-400" />
+                    ) : (
+                      <AlertCircle className="h-5 w-5 text-yellow-400" />
+                    )}
                     <div>
                       <p className="text-sm font-medium">{commit.message}</p>
-                      <p className="text-sm text-gray-400">{commit.id} • by {commit.author}</p>
+                      <p className="text-sm text-gray-400">
+                        {commit.id} • by {commit.author}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
                     <span className="text-sm text-gray-400">{commit.timestamp}</span>
-                    <div className={`px-2 py-1 rounded-full text-xs font-medium ${commit.verified ? 'bg-green-900 text-green-300' : 'bg-yellow-900 text-yellow-300'}`}>
+                    <div
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        commit.verified
+                          ? 'bg-green-900 text-green-300'
+                          : 'bg-yellow-900 text-yellow-300'
+                      }`}
+                    >
                       {commit.verified ? 'Verified' : 'Pending'}
                     </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
