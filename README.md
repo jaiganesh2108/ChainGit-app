@@ -54,3 +54,28 @@ Git Commit  --->  Hashing  --->  Blockchain Ledger
 - Backend: Node.js + Express.js
 - Blockchain: Ethereum / Hyperledger / Custom chain
 - Database: MongoDB / IPFS for storage
+
+## 👥 Contributors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/jaiganesh2108">
+        <img src="https://github.com/jaiganesh2108.png" width="80px" style="border-radius:50%; border:2px solid #ccc;" alt="jaiganesh2108"/>
+        <br /><sub><b>jaiganesh2108</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/dillibasker">
+        <img src="https://github.com/dillibasker.png" width="80px" style="border-radius:50%; border:2px solid #ccc;" alt="dillibasker"/>
+        <br /><sub><b>dillibasker</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/L-visualizer">
+        <img src="https://github.com/L-visualizer.png" width="80px" style="border-radius:50%; border:2px solid #ccc;" alt="L-visualizer"/>
+        <br /><sub><b>abhishak26</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
