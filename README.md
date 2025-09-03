@@ -57,7 +57,6 @@ Git Commit  --->  Hashing  --->  Blockchain Ledger
 - Database: MongoDB / IPFS for storage
 
 ## 👥 Contributors
-
 <table>
   <tr>
     <td align="center">
